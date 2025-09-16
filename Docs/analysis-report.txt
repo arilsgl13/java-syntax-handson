@@ -1,0 +1,310 @@
+A.1.SyntaxChecker
+    int 2number = 10;Variabel tidak boleh diawali dengan angka. Harus diubah ke number2 atau nama lain yang valid.
+    String first name = "Budi";Variabel tidak boleh memiliki spasi. Harus diganti menjadi firstName atau first_name.
+    int class = 25;class adalah kata kunci di Java, jadi tidak boleh digunakan sebagai nama variabel. Gunakan nama lain seperti classNumber.
+    System.out.println("Hello World")
+    Baris ini kurang tanda titik koma (;) di akhir statement.
+    boolean is Active = true;Tidak boleh ada spasi di nama variabel. Harus menjadi isActive.
+    double nilai rata = 85.5;
+    Sama, tidak boleh ada spasi. Harus menjadi nilaiRata.
+
+A.2.NamingConvention
+    Huruf pertama variabel kecil: Semua variabel dimulai dengan huruf kecil, sesuai aturan.
+
+    Huruf pertama kata berikutnya kapital: Setiap kata setelah kata pertama diawali dengan huruf kapital untuk memisahkan kata.
+
+    Tidak menggunakan spasi atau underscore: Variabel digabungkan tanpa spasi atau karakter lain, sehingga lebih mudah dibaca dan konsisten.
+
+    Deskriptif: Nama variabel jelas menjelaskan isi atau makna data yang disimpan.
+
+A.3.DataTypeLimits
+    Kesalahan Penamaan File dan Kelas
+    Di Java, nama file harus sama persis dengan nama kelas public yang ada di dalamnya, termasuk huruf kapitalnya.
+    Contohnya:
+    Jika kelas bernama SyntaxChecker, maka file harus SyntaxChecker.java.
+    Jika kelas bernama syntaxchecker, maka file harus syntaxchecker.java.
+
+    Jika ada ketidaksesuaian, kompiler Java akan memberikan error seperti:
+    error: class SyntaxChecker is public, should be declared in a file named SyntaxChecker.java
+
+    atau
+
+    error: class syntaxchecker is public, should be declared in a file named syntaxchecker.java
+
+
+    Dampak error:
+    Program tidak bisa dikompilasi.
+    File source code harus diperbaiki dengan nama kelas yang benar dan nama file yang sesuai agar dapat dikompilasi.
+
+    Kesimpulan:
+    Penamaan kelas harus menggunakan PascalCase (setiap awal kata kapital), sesuai konvensi Java.
+    Nama file harus sama persis dengan nama kelas public (termasuk huruf kapitalnya).
+    Jika tidak, kompilasi akan gagal dan muncul error.
+    Ini penting untuk menjaga konsistensi dan agar Java dapat menemukan kelas dengan benar.
+
+B.1.Pemilihan Tipe Data
+    1. Pembagian dengan double
+    Variabel bertipe double menyimpan angka desimal.
+    Pembagian dengan tipe double menghasilkan nilai pecahan/desimal jika hasilnya tidak bulat.
+
+    Contoh:
+
+    double angka1 = 7.0;
+    double angka2 = 3.0;
+    double hasilPembagian = angka1 / angka2; // Hasil = 2.3333333
+
+    Output:
+
+    7.0 / 3.0 = 2.3333333333333335
+
+    2. Pembagian dengan int
+
+    Variabel bertipe int hanya menyimpan bilangan bulat.
+    Pembagian dengan tipe int melakukan pembagian bulat (integer division), artinya hasilnya akan dibulatkan ke bawah (floor), tanpa pecahan.
+
+    Contoh:
+
+    int angka1 = 7;
+    int angka2 = 3;
+    int hasilPembagian = angka1 / angka2; // Hasil = 2
+
+    Output:
+
+    7 / 3 = 2
+
+    Perbedaan hasil
+    Tipe Data	Input	Hasil Pembagian	Penjelasan
+    double	7.0 / 3.0	2.3333333333333	Menghasilkan nilai pecahan
+    int	7 / 3	2	Pembagian bulat, nilai dibulatkan ke bawah
+    Contoh lengkap di program
+
+    Jika kamu ubah SimpleCalculator agar menggunakan int untuk pembagian:
+
+    int angka1 = 7;
+    int angka2 = 3;
+    int hasilPembagian = angka1 / angka2;
+    System.out.println(angka1 + " / " + angka2 + " = " + hasilPembagian);
+
+    Output:
+
+    7 / 3 = 2
+gitgit
+    Penjelasan singkat:
+    double cocok untuk operasi dengan hasil pecahan atau desimal.
+    int cocok untuk operasi yang harus menghasilkan bilangan bulat, tapi hati-hati karena hasilnya dibulatkan ke bawah.
+
+B.2.Data Loss Experiment
+
+    Kasus 2: Data Populasi
+    Populasi asli (long): 273,523,615
+    Setelah casting ke int, terjadi overflow sehingga nilai yang tersimpan di int menjadi angka yang sangat berbeda dan tidak benar.
+
+    Contoh output yang kemungkinan muncul:
+    Populasi asli (long): 273523615
+    Populasi setelah casting ke int: -1626137729
+
+    Penjelasan mengapa ini data loss paling signifikan:
+    Tipe long memiliki kapasitas 64-bit, mampu menyimpan nilai besar hingga sekitar 9.22×10¹⁸.
+    Tipe int hanya 32-bit, kapasitas maksimum sekitar 2.14×10⁹.
+
+    Saat nilai long lebih besar dari batas maksimum int, terjadi overflow yang menyebabkan hasil casting menjadi nilai negatif atau sangat berbeda secara drastis.
+    Ini berbeda dengan kasus lain, misalnya casting double ke int di kasus sistem penilaian, di mana hanya bagian desimal yang hilang (data loss minor).
+
+    Contoh output lain untuk perbandingan:
+
+    Kasus 1 (casting double ke int):
+
+    Nilai asli: 87.65
+    Nilai setelah casting ke int: 87
+    Data yang hilang: 0.65
+
+    Kasus 5 (waktu milidetik overflow):
+
+    Waktu asli (long): 3000000000
+    Waktu setelah casting ke int: 705032704
+
+    Masih signifikan tapi lebih kecil dibanding kasus populasi.
+
+    Kesimpulan:
+
+    Overflow dari long ke int (Kasus Populasi Negara) menyebabkan data loss paling parah karena nilai yang dihasilkan menjadi jauh berbeda (nilai negatif atau acak), bukan hanya hilangnya pecahan seperti pada kasus casting dari double ke int.
+
+B.3.Overflow Analysis
+    Saat kamu mencoba memberikan nilai 300 ke variabel bertipe byte dalam program DataTypeLimits,
+    misalnya:
+    byte testByte = 300;  // Ini akan error atau menghasilkan hasil tak terduga
+
+    Hasil yang muncul:
+
+    Compile error jika langsung menuliskan byte testByte = 300; karena 300 melebihi batas maksimum byte.
+
+    Jika pakai casting eksplisit, seperti:
+
+    byte testByte = (byte) 300;
+    System.out.println(testByte);
+
+    maka output yang muncul adalah:
+    44
+
+    Penjelasan mengapa hasilnya seperti itu:
+
+    Tipe data byte di Java memiliki batas nilai dari -128 sampai 127 (8-bit signed integer).
+    Ketika kamu memberikan nilai 300 (yang lebih besar dari 127), nilai tersebut akan overflow atau wrap-around ke rentang yang valid untuk byte.
+
+    Secara teknis, nilai 300 akan dikonversi ke biner dan hanya 8 bit paling rendah yang disimpan:
+    300
+
+    dalam biner 32-bit adalah:
+    00000000 00000000 00000001 00101100
+
+    Jika kita ambil 8 bit paling kanan (least significant byte):
+    00101100 = 44 (desimal)
+
+    Oleh karena itu, hasil casting (byte) 300 menjadi 44.
+
+    Intinya:
+
+    Overflow pada tipe data primitif terjadi jika nilai yang disimpan melebihi kapasitas tipe data.
+
+    Nilai akan "melingkar" ke batas yang valid, menghasilkan nilai yang tidak sama dengan nilai asli.
+
+    Ini merupakan efek dari representasi nilai dalam bit yang terbatas.
+
+B.4.Practical Impact
+
+    DataLossStudy:
+    Kenapa program DataLossStudy paling berisiko?
+
+    Program ini melakukan casting tipe data dengan potensi kehilangan informasi (data loss) atau overflow secara eksplisit.
+
+    Ada beberapa kasus nyata di mana data asli sangat berbeda setelah casting, bisa menyebabkan bug atau hasil yang salah.
+
+    Contoh spesifik dari kode DataLossStudy:
+    // Kasus 2: Populasi Negara
+    long populasiIndonesia = 273_523_615L; // 273 juta+
+    int populasiInt = (int) populasiIndonesia; // Overflow!
+
+    System.out.println("Populasi asli (long): " + populasiIndonesia);
+    System.out.println("Populasi setelah casting ke int: " + populasiInt);
+
+    Penjelasan risiko:
+
+    long dapat menyimpan angka jauh lebih besar dari int.
+
+    Casting langsung dari long ke int jika nilai long melebihi batas int akan menghasilkan overflow dan nilai populasiInt jadi salah/tidak valid.
+
+    Contohnya, populasi Indonesia yang lebih dari 273 juta, ketika di-cast ke int, bisa berubah menjadi angka negatif atau angka tidak masuk akal.
+
+C.1.Scanner Implementation
+
+    1. scanner.nextLine()
+
+    Digunakan untuk input:
+
+    Nama Lengkap
+    NIM
+    Jurusan
+
+    Alasan:
+    nextLine() membaca seluruh baris input, termasuk spasi.
+
+    Cocok untuk input teks yang bisa terdiri dari beberapa kata (misal nama lengkap atau jurusan).
+
+    Berbeda dengan next() yang hanya membaca hingga spasi pertama.
+
+    2. scanner.nextInt()
+
+    Digunakan untuk input:
+
+    Umur
+    Semester saat ini
+    Tahun Masuk
+
+    Alasan:
+
+    Membaca input numerik bertipe integer.
+
+    Digunakan untuk data yang berupa bilangan bulat.
+
+    Catatan penting:
+
+    Setelah nextInt(), selalu ada scanner.nextLine() untuk membersihkan newline (\n) yang tersisa di buffer agar input nextLine() berikutnya tidak langsung terbaca kosong.
+
+    3. scanner.nextDouble()
+
+    Digunakan untuk input:
+
+    IPK
+
+    Alasan:
+
+    Membaca input numerik bertipe double (angka pecahan/desimal).
+
+    Cocok untuk nilai IPK yang biasanya memiliki nilai desimal.
+
+    4. scanner.nextFloat()
+
+    Digunakan untuk input:
+
+    Tinggi Badan
+
+    Alasan:
+
+    Membaca input numerik bertipe float.
+
+    Cukup untuk nilai tinggi badan yang mungkin memiliki pecahan tapi presisinya tidak setinggi double.
+
+    Menghemat memori dibandingkan double (walaupun dalam konteks ini biasanya tidak signifikan).
+
+    5. scanner.nextBoolean()
+
+    Digunakan untuk input:
+
+    Status Aktif
+
+    Alasan:
+
+    Membaca input bertipe boolean (true/false).
+
+    Memudahkan validasi input status aktif tanpa harus parsing manual string.
+
+    Ringkasan:
+    Tipe Data	Scanner Method	Alasan
+    String	nextLine()	Membaca seluruh baris, termasuk spasi
+    int	nextInt()	Membaca angka bulat
+    double	nextDouble()	Membaca angka desimal dengan presisi tinggi
+    float	nextFloat()	Membaca angka desimal dengan presisi sedang
+    boolean	nextBoolean()	Membaca input true/false
+
+B.2.Input Validation
+
+    Apa yang terjadi?
+
+    Program akan menolak nilai tersebut.
+
+    Muncul pesan "Nilai harus antara 0 hingga 100. Silakan input ulang."
+
+    Program meminta Anda untuk memasukkan nilai ulang sampai nilai yang dimasukkan valid (antara 0 sampai 100).
+
+    Ini terjadi karena di method inputNilai(Scanner scanner, String prompt) terdapat loop do-while yang mengecek nilai input:
+
+    do {
+        System.out.print(prompt);
+        nilai = scanner.nextDouble();
+        if (nilai < 0 || nilai > 100) {
+            System.out.println(" Nilai harus antara 0 hingga 100. Silakan input ulang.");
+        }
+    } while (nilai < 0 || nilai > 100);
+
+
+    Jadi selama nilai yang dimasukkan kurang dari 0 atau lebih dari 100, program tidak akan keluar dari loop dan akan terus meminta input ulang.
+
+    Bagaimana program menangani situasi ini?
+    Validasi input nilai secara langsung sebelum melanjutkan.
+    Loop terus meminta input hingga mendapatkan nilai yang valid.
+    Dengan cara ini, program memastikan nilai yang diproses adalah valid dan menghindari hasil perhitungan yang tidak logis atau error.
+
+    Kesimpulan:
+
+    Program sudah memiliki mekanisme validasi input nilai yang mencegah nilai tidak valid masuk ke perhitungan.
+    User akan diarahkan untuk memasukkan nilai dengan benar agar program bisa berjalan dengan hasil yang valid dan akurat.
